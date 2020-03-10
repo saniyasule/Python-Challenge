@@ -58,9 +58,12 @@ with open(output_path, 'w', newline='') as txt_file:
     txt_file.write("---------------------------------\n")
     txt_file.write(f"Total Months : {(row_count)} \n")
     txt_file.write(f"total: $ {(total)} \n")
-    txt_file.write(f"Average  Change: $ {(change)} \n")
-    txt_file.write(f"Greatest Increase in Profits: {(max_date)} {(max_change)}\n")
-    txt_file.write(f"Greatest Decrease in Profits:  {(min_date)} {(min_change)} \n")
+    txt_file.write(f"Average Change: ${round(change, 2)} \n")
+    txt_file.write(f"Greatest Increase in Profits: {(max_date)},(${(max_change)})\n")
+    txt_file.write(f"Greatest Decrease in Profits: {(min_date)},(${(min_change)})\n")
+
+
+
 
 
 

@@ -4,46 +4,55 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 csvpath = os.path.join('Resources', 'election_data.csv')
 
 with open(csvpath) as csvfile:
- 
-    csvreader = (csv.reader(csvfile, delimiter=","))
-    csv_header = next(csvreader)
-    Voter_ID = []
-    County = []
-    Candidate = []
+    csvreader = csv.reader(csvfile, delimiter=',')
+
+    candidate = []
+    votes = []
+    name= []
 
     for row in csvreader:
-        sheet_row_a = row[0]
-        sheet_row_b = row[1]
-        sheet_row_c = row[2]
-        Voter_ID.append(sheet_row_a)
-        County.append(sheet_row_b)
-        Candidate.append(sheet_row_c)
-        row_count = len(Voter_ID)
-    #print (row_count)
-    row_count1 = Candidate.count("Khan")
-    row_count2 = Candidate.count("Correy")
-    row_count3 = Candidate.count("Li")
-    row_count4 = Candidate.count("O'Tooley")
+        candidate.append(row[2])
+    candidate_count = [[x,candidate.count(x)] for x in set(candidate)]
 
-    per1 = ((row_count1)/(row_count)*100)
-    per2 = ((row_count2)/(row_count)*100)
-    per3 = ((row_count3)/(row_count)*100)
-    per4 = ((row_count4)/(row_count)*100)
-    
+    for row in candidate_count:
+        name.append(row[0])
+        votes.append(row[1])
+
+    candidate_zip = zip(name,votes)
+    candidate_list = list(candidate_zip)
+    winner = max(votes)
+
+    for row in candidate_list:
+        if row[1] == winner:
+            winner_name = row[0]
+
+total_votes = len(candidate)-1
+correy = candidate.count('Correy')
+correy_percent=int(correy)/int(total_votes)
+
+khan = candidate.count('Khan')
+khan_percent = int(khan)/int(total_votes)
+
+Li = candidate.count('Li')
+Li_percent = int(Li)/int(total_votes)
+
+Tooley = candidate.count("O'Tooley")
+Tooley_percent = int(Tooley)/int(total_votes)
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 output_path = os.path.join("Resources", "pypolltxt.txt")
 
 with open(output_path, 'w', newline='') as txt_file:
-    txt_file.write("Election Results  \n")
-    txt_file.write("---------------------------------\n")
-    txt_file.write(f"Total Votes: : {(row_count)} \n")
-    txt_file.write("---------------------------------\n")
-    txt_file.write(f"Khan : {per1} ({(row_count1)})\n")
-    txt_file.write(f"Correy : {per2} ({(row_count2)})\n")
-    txt_file.write(f"Correy : {per3} ({(row_count3)})\n")
-    txt_file.write(f"Correy : {per4} ({(row_count4)})\n")
-    txt_file.write("---------------------------------\n")
-    txt_file.write("Winner : Khan \n")
-    txt_file.write("---------------------------------\n")
+    txt_file.write(f"Election Results \n")
+    txt_file.write("-------------------------\n")
+    txt_file.write(f"Total Votes:  {total_votes}\n")
+    txt_file.write("-------------------------\n")
+    txt_file.write(f"Khan : {khan_percent:.3%} ({khan})\n")
+    txt_file.write(f"Correy : {correy_percent:.3%} ({correy})\n")
+    txt_file.write(f"Li : {Li_percent:.3%} ({Li})\n")
+    txt_file.write(f"O'Tooley : {Tooley_percent:.3%} ({Tooley})\n")
+    txt_file.write(f"------------------------\n")
+    txt_file.write(f"Winner : {winner_name}\n")
+    txt_file.write(f"--------------------------\n")
+
 
